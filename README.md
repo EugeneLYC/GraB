@@ -20,6 +20,10 @@ The implementation is provided in the `dmsort` package. To install the package, 
 ```
 python setup.py install
 ```
+or simply,
+```
+export PYTHONPATH=<path to GraB>/src/
+```
 To run the examples, we need to install all the denpendency packages via
 ```
 pip install -r requirements.txt
