@@ -1,0 +1,19 @@
+*.pyc
+*~
+*.err
+*.out
+*.log
+*__pycache__/
+build/
+dist/
+data/
+runs/
+*.edu
+*.so
+*.sub
+*.nfs*
+*.egg-info
+
+# Dev/IDE data
+.code-workspace
+.theia

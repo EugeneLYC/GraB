@@ -1,0 +1,7 @@
+_RANDOM_RESHUFFLING_ = 'random_reshuffling'
+_SHUFFLE_ONCE_ = 'shuffle_once'
+_ZEROTH_ORDER_SORT_ = 'zeroth_order_greedy_sort'
+_STALE_GRAD_SORT_ = 'stale_grad_greedy_sort'
+_FRESH_GRAD_SORT_ = 'fresh_grad_greedy_sort'
+_DM_SORT_ = 'dm'
+_FLIPFLOP_SORT_ = 'flipflop'

@@ -1,0 +1,17 @@
+{
+    "RandomHorizontalFlip": {
+        "p": 0.5
+    },
+    "RandomCrop": {
+        "size": 32,
+        "padding": 4
+    },
+    "RandomRotation": {
+        "degrees": 15
+    },
+    "ToTensor": {},
+    "Normalize": {
+        "mean": [0.507, 0.487, 0.441],
+        "std": [0.268, 0.257, 0.276]
+    }
+}

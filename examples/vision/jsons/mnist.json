@@ -1,0 +1,16 @@
+{
+    "train_transforms": {
+        "ToTensor": {},
+        "Normalize": {
+            "mean": 0.1307,
+            "std": 0.3081
+        }
+    },
+    "test_transforms": {
+        "ToTensor": {},
+        "Normalize": {
+            "mean": 0.1307,
+            "std": 0.3081
+        }
+    }
+}
