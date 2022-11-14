@@ -130,7 +130,27 @@ class StaleGradDiscrepencyMinimizationSort(Sort):
         return self.orders
 
     def step(self, optimizer, batch_idx):
-        cur_grad = flatten_grad(optimizer)
+        t = None
+        # use the stale variance checkpoint for preconditioning
+        for _, param_group in enumerate(optimizer.param_groups):
+            for p in param_group['params']:
+                if p.grad is None:
+                    continue
+                state = optimizer.state[p]
+                if len(state) == 0:
+                    exp_avg_sq = torch.zeros_like(p.grad.data)
+                else:
+                    exp_avg_sq = state['exp_avg_sq'] if 'var_ckpt' not in state.keys() else state['var_ckpt']
+                if p.grad is not None:
+                    if t is None:
+                        t = torch.flatten(
+                            p.grad.data.mul(exp_avg_sq.pow(self.args.pow))
+                        )
+                    else:
+                        t = torch.cat(
+                            (t, torch.flatten(p.grad.data.mul(exp_avg_sq.pow(self.args.pow))))
+                        )
+        cur_grad = t
         self.next_epoch_avg_grad.add_(cur_grad / self.num_batches)
         cur_grad.add_(-1 * self.avg_grad)
         # The balancing algorithm used here is described in Algorithm 5 in 

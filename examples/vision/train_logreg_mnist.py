@@ -16,7 +16,7 @@ from constants import _RANDOM_RESHUFFLING_, \
                     _MNIST_, \
                     _DM_SORT_, \
                     _FLIPFLOP_SORT_
-
+from adam import Adam
 logger = logging.getLogger(__name__)
 
 def main():
@@ -46,11 +46,10 @@ def main():
     model_dimen = sum(p.numel() for p in model.parameters() if p.requires_grad)
     model = VisionModel(args, model, criterion)
     logger.info(f"Using model: {args.model} with dimension: {model_dimen}.")
-
-    optimizer = torch.optim.SGD(params=model.parameters(),
-                                lr=args.lr,
-                                momentum=args.momentum,
-                                weight_decay=args.weight_decay)
+    
+    optimizer = Adam(params=model.parameters(),
+                    lr=args.lr,
+                    weight_decay=args.weight_decay)
     logger.info(f"Using optimizer SGD with hyperparameters: learning rate={args.lr}; momentum={args.momentum}; weight decay={args.weight_decay}.")
     logger.info(f"Using dataset: {args.dataset}")
 
@@ -113,11 +112,16 @@ def main():
             raise NotImplementedError("This sorting method is not supported yet")
         logger.info(f"Creating sorting algorithm: {args.shuffle_type}.")
 
-    args.task_name = build_task_name(args)
-    logger.info(f"Creating task name as: {args.task_name}.")
+    # args.task_name = build_task_name(args)
+    # logger.info(f"Creating task name as: {args.task_name}.")
+    if args.shuffle_type == _DM_SORT_:
+        args.task_name = 'GraB_Adam_power' + str(args.pow)
+    else:
+        args.task_name = args.shuffle_type + '_Adam'
+
 
     if args.use_tensorboard:
-        tb_path = os.path.join(args.tensorboard_path, 'runs', args.task_name)
+        tb_path = os.path.join(args.tensorboard_path, 'runs', args.dataset, args.task_name)
         logger.info(f"Streaming tensorboard logs to path: {tb_path}.")
         tb_logger = SummaryWriter(tb_path)
     else:

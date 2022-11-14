@@ -150,5 +150,10 @@ def get_args():
                         type=int,
                         help='the target dimension for random projection')
     
+    parser.add_argument('--pow',
+                        default=0,
+                        type=float,
+                        help='power index used in the GraB-Adam idea')
+    
     args = parser.parse_args()
     return args

@@ -141,6 +141,10 @@ def train(args,
                   'Prec@1 {top1.val:.3f} ({top1.avg:.3f})'.format(
                       epoch, i, len(loader), loss=losses, top1=top1))
     
+    
+    optimizer.adam_variance_checkpoint()
+    
+    
     total_time = timer.totals["forward pass"] + timer.totals["backward pass"]
     if sorter is not None:
         total_time += timer.totals["sorting"]
