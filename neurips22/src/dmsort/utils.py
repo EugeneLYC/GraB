@@ -40,29 +40,15 @@ def compute_avg_grad_error(args,
         index += 1
     tb_logger.add_scalar('train/metric', cur_var, epoch)
 
-
 def flatten_grad(optimizer):
-    t = None
+    t = []
     for _, param_group in enumerate(optimizer.param_groups):
         for p in param_group['params']:
-            if p.grad is not None:
-                if t is None:
-                    t = torch.flatten(p.grad.data)
-                else:
-                    t = torch.cat(
-                        (t, torch.flatten(p.grad.data))
-                    )
-    return t
-
+            if p.grad is not None: t.append(p.grad.data.view(-1))
+    return torch.concat(t)
 
 def flatten_params(model):
-    t = None
+    t = []
     for _, param in enumerate(model.parameters()):
-        if param is not None:
-            if t is None:
-                t = torch.flatten(param.data)
-            else:
-                t = torch.cat(
-                    (t, torch.flatten(param.data))
-                )
-    return t
+        if param is not None: t.append(param.data.view(-1))
+    return torch.concat(t)
