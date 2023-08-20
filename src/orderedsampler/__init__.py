@@ -154,7 +154,8 @@ class OrderedSampler(Sampler[List[int]]):
             self._index_to_rank[k] = updated_ranks[k]
 
     def reset_epoch(self):
-        if not self.indices_tracker.sanity_check():
+        # need to reset the tracker
+	if not self.indices_tracker.sanity_check():
             raise ValueError("The OrderedSampler encounters an issue of non-empty indices cache. "
                             "This could happen when the ``.step()`` function of OrderedSampler "
                             "is missed between ``.backward()`` and ``.zero_grad()`` in your script. "
